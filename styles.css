@@ -6,6 +6,7 @@
 }
 
 body {
+    box-sizing: content-box;
     font-family: 'Courier New', Courier, monospace;
     display: flex;
     justify-content: center;
@@ -13,7 +14,7 @@ body {
     position: fixed;
     top: 25%;
     left: 25%;
-    background-color: #e9c46a;
+    background-color: #F7B2B7;
 
 }
 
@@ -23,10 +24,10 @@ body {
     justify-content: space-around;
     width: 400px;
     height: 600px;
-    background-color: #264653;
-    border: 4px solid #333333;
+    background-color: #EFEFD0;
+    border: 4px solid #4F6367;
     border-radius: 10px;
-    box-shadow: 6px 6px #555555;
+    box-shadow: 6px 6px #636161;
 }
 
 .row {
@@ -38,26 +39,29 @@ body {
     width: 70px;
     height: 50px;
     font-size: 18pt;
-    border: 2px solid #E76F51;
-    background-color: #F4A261;
+    border: 2px solid #062f30;
+    background-color: #8ac5e6;
     border-radius: 10px;
-    box-shadow: 3px 3px #000000;
+    box-shadow: 1px 1px #636161;
 }
 
 .key:hover{
-    background-color: #f1ad74;
+    background-color: #9adcff;
 }
 
-.screen {
+.display {
+    display: flex;
     align-self: center;
+    justify-content: end;
+    align-items: end;
     width: 90%;
     height: 80px;
     text-align: end;
     font-size: 30pt;
-    background-color: #2A9D8F;
-    border: 2px solid #333333;
+    background-color: #84dabd;
+    border: 4px solid #4F6367;
     border-radius: 10px;
-    box-shadow: 3px 3px #333333;
+    box-shadow: 3px 3px #636161;
     color: #3f3f3f;
 
 }

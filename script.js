@@ -1,30 +1,63 @@
 // numbers and operator variables
-let a;
-let b;
+let num1;
+let num2;
 let op;
+let prevKeyOp = false;
+let currentNum = "";
+// string to go onto the display
+let displayString = "";
 
-// string to go onto the screen
-let inputStr = ""
 
-let prevKeyOp;
-
-const screen = document.querySelector(".screen")
+const display = document.querySelector(".display")
 
 // TO DO
-const createInputStr = function(key) {
-    let keyType = key.classList[1];
+const parseInput = function(key) {
+    
+    
+    const keyType = key.classList[1]
+    const keyStr = key.innerText;
+    switch(keyType) {
 
-    if (keyType == "clear") {
-        screen.innerText = ""
-    } else if (keyType == "equals") {
-        screen.innerText = "="
-    } else if (keyType == "op") {
-        screen.innerText = keyType
-        // check if previous key was an operator
-    } else {
-        screen.innerText = key.innerText
+        case "clear": 
+            currentNum = "";
+            num1 = "";
+            num2 = "";
+            op = "";
+            prevKeyOp = false;
+            displayString = "";
+            return;
+
+        case "equals":
+
+            num2 = parseInt(currentNum);
+            if ((!num1 || !num2 || !op)){
+                return;
+            }
+            displayString = (operator(num1, num2, op).toString());
+            break;
+        case "num":
+
+            currentNum += keyStr;
+            prevKeyOp = false;
+            displayString += keyStr;
+            break;
+        case "op":
+            if ((prevKeyOp == true || display.innerText == "")){
+                console.log(`Operator n/a`)
+                
+            }
+            op = keyStr
+            currentNum = Number(displayString);
+            displayString += keyStr;
+            prevKeyOp = true;
+            //console.log(currentNum)
+            num1 = currentNum;
+            currentNum = ""
+            //console.log(`Was previous key an operator : ${prevKeyOp}`)
+            break;
     }
-    console.log(`${key.innerText} ${key.classList[1]}`)
+    display.innerText = displayString;
+    return;
 }
 // function to take click event, check if it is "clear"
 // then check if it is equals
@@ -38,7 +71,7 @@ const createInputStr = function(key) {
 // Add event listeners for click on each key
 let keys = document.querySelectorAll(".key")
 keys = Array.from(keys)
-keys.forEach((key) => {key.addEventListener("click", () => createInputStr(key))});
+keys.forEach((key) => {key.addEventListener("click", () => parseInput(key))});
 
 
 
@@ -85,18 +118,6 @@ const operator = function (a, b, op) {
     return result;
 }
 
-// function to create input string on screen
 
-// const createInputStr = function(key, keyType, inputStr, prevKeyOp) {
-    
-//     if (prevKeyOp && keyType != "num") {
-//         prevKeyOp = true;
-//         return [...key, prevKeyOp];
-//     } else {
-//     prevKeyOp = false;
-//     return [...key, prevKeyOp];
-//     }
-//  }
-
-// function to update screen?
+// function to update display?
 
