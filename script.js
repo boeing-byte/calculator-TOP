@@ -4,59 +4,92 @@ let num2;
 let op;
 let prevKeyOp = false;
 let currentNum = "";
-// string to go onto the display
 let displayString = "";
-
+let resultDisplayed = false;
+let decimal = false;
+let opChosen = false;
 
 const display = document.querySelector(".display")
 
-// TO DO
 const parseInput = function(key) {
-    
-    
+
+
     const keyType = key.classList[1]
     const keyStr = key.innerText;
+
+        
+    if (resultDisplayed == true && keyType == "num") {
+        displayString = `${num1}${op}`;
+        // display.innerText = displayString;
+        resultDisplayed = false;
+    }
+
+
     switch(keyType) {
 
-        case "clear": 
-            currentNum = "";
-            num1 = "";
-            num2 = "";
-            op = "";
-            prevKeyOp = false;
-            displayString = "";
-            return;
-
+        case "clear":
+             
+            clearAll();
+            break;
+            
         case "equals":
 
             num2 = parseInt(currentNum);
+            // checks for valid inputs ie 2 numbers and an operator
             if ((!num1 || !num2 || !op)){
                 return;
             }
             displayString = (operator(num1, num2, op).toString());
+            resultDisplayed = true;
+            decimal = false;
             break;
+
         case "num":
 
             currentNum += keyStr;
             prevKeyOp = false;
             displayString += keyStr;
             break;
+
         case "op":
+
             if ((prevKeyOp == true || display.innerText == "")){
                 console.log(`Operator n/a`)
-                
+                return;  
+            }
+            // makes second pressinng of operator cause it to act like equals
+            // ie 2+2+ becomes 4+ etc..
+            if (opChosen) {
+                num2 = Number(currentNum);
+                displayString = (operator(num1, num2, op).toString());
+                resultDisplayed = true;
+                decimal = false;
+                opChosen = false;
             }
             op = keyStr
             currentNum = Number(displayString);
             displayString += keyStr;
+            opChosen = true;
             prevKeyOp = true;
-            //console.log(currentNum)
             num1 = currentNum;
             currentNum = ""
-            //console.log(`Was previous key an operator : ${prevKeyOp}`)
             break;
+        
+        case "point":
+            // boolean tracking if decimal has already been pressed for this number
+            if (decimal) {
+                return;
+            } else {
+                decimal = true;
+                displayString += keyStr;
+            }
+    }
+    // reduce length of long float numbers on display
+    if (displayString.length >= 15) {
+        displayString = displayString.substring(0, 14)
     }
     display.innerText = displayString;
+    
     return;
 }
 // function to take click event, check if it is "clear"
@@ -85,15 +118,13 @@ const subtract = function(a, b) {
     return a - b;
 }
 
-
 const multiply = function(a, b) {
     return a * b;
 }
 
-
 const divide = function(a, b) {
     if (b == 0) {
-        return  "ERROR";
+        return NaN;
     } else {
         return a / b;
     }
@@ -115,9 +146,24 @@ const operator = function (a, b, op) {
             result = divide(a, b);
             break
     }
-    return result;
+    if (result == NaN) {
+        return "ERROR"
+    } else {
+        return result;
+    }   
 }
 
+// function to reset all variables
+const clearAll = function() {
 
-// function to update display?
+    currentNum = "";
+    num1 = "";
+    num2 = "";
+    op = "";
+    prevKeyOp = false;
+    displayString = "";
+    resultDisplayed = false;
+    decimal = false;
+    opChosen = false;
+}
 
