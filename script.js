@@ -9,6 +9,11 @@ let resultDisplayed = false;
 let decimal = false;
 let opChosen = false;
 
+// TO DO 
+
+// DIVISION BY 0
+// DEL KEY?
+// PERCENT AND NEGATIVE KEY
 const display = document.querySelector(".display")
 
 const parseInput = function(key) {
@@ -20,7 +25,7 @@ const parseInput = function(key) {
         
     if (resultDisplayed == true && keyType == "num") {
         displayString = `${num1}${op}`;
-        // display.innerText = displayString;
+        display.innerText = displayString;
         resultDisplayed = false;
     }
 
@@ -34,7 +39,7 @@ const parseInput = function(key) {
             
         case "equals":
 
-            num2 = parseInt(currentNum);
+            num2 = Number(currentNum);
             // checks for valid inputs ie 2 numbers and an operator
             if ((!num1 || !num2 || !op)){
                 return;
@@ -71,6 +76,7 @@ const parseInput = function(key) {
             displayString += keyStr;
             opChosen = true;
             prevKeyOp = true;
+            decimal = false;
             num1 = currentNum;
             currentNum = ""
             break;
@@ -81,22 +87,16 @@ const parseInput = function(key) {
                 return;
             } else {
                 decimal = true;
+                currentNum += keyStr;
                 displayString += keyStr;
             }
     }
-    // reduce length of long float numbers on display
-    if (displayString.length >= 15) {
-        displayString = displayString.substring(0, 14)
-    }
+
     display.innerText = displayString;
     
     return;
 }
-// function to take click event, check if it is "clear"
-// then check if it is equals
-// then check if it is an operator key,
-// if it is, check if previous key was an operator
-// if not, and it is a number, add it to string
+
 
 
 
@@ -153,7 +153,7 @@ const operator = function (a, b, op) {
     }   
 }
 
-// function to reset all variables
+// function to reset all variables to initial values
 const clearAll = function() {
 
     currentNum = "";
@@ -165,5 +165,16 @@ const clearAll = function() {
     resultDisplayed = false;
     decimal = false;
     opChosen = false;
+}
+
+const createDisplay = function(displayString) {
+    // takes the display string and formats it to fit on the display as required
+    // display length = 14 maximum
+
+}
+
+const eNotation = function(num) {
+    // takes a long input number and returns a string with it as e notation ie 500000 = 5.0e+5 -100000 = -1.0e5
+    return(num.toExponential(2).toString())
 }
 
