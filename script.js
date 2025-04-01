@@ -41,12 +41,14 @@ const parseInput = function(key) {
 
             num2 = Number(currentNum);
             // checks for valid inputs ie 2 numbers and an operator
-            if ((!num1 || !num2 || !op)){
+            if ((!num1 || (!num2 && num2 != 0) || !op)){
+                displayString = "ERROR";
                 return;
             }
             displayString = (operator(num1, num2, op).toString());
             resultDisplayed = true;
             decimal = false;
+            opChosen = false;
             break;
 
         case "num":
@@ -90,9 +92,22 @@ const parseInput = function(key) {
                 currentNum += keyStr;
                 displayString += keyStr;
             }
-    }
+            break;
+        
+        case "plusminus":
+            if (!opChosen && currentNum) {
+                displayString = (Number(displayString) * -1);
+            }
+            break;
 
-    display.innerText = displayString;
+        // case "delete":
+        //     displayString.pop();
+        //     break;
+
+    }
+    
+    createDisplay(displayString);
+    // call function to display values on screen
     
     return;
 }
@@ -123,11 +138,10 @@ const multiply = function(a, b) {
 }
 
 const divide = function(a, b) {
-    if (b == 0) {
-        return NaN;
-    } else {
-        return a / b;
+    if (b === 0) {
+        return "lmao";
     }
+    return a / b;
 }
 
 // operator function
@@ -165,11 +179,19 @@ const clearAll = function() {
     resultDisplayed = false;
     decimal = false;
     opChosen = false;
+    display.innerText = displayString;
 }
 
 const createDisplay = function(displayString) {
     // takes the display string and formats it to fit on the display as required
     // display length = 14 maximum
+    // if (displayString.length > 12 && !opChosen) {
+    //     displayString = eNotation(Number(currentNum))
+    // }
+    if (display.innerText == "lmao") {
+        return;
+    }
+     display.innerText = displayString;
 
 }
 
